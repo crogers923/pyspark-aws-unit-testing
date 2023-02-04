@@ -19,6 +19,6 @@ class TestCopyParquetToNewS3Key(PySparkTest):\
         df.write.parquet(f"s3://{self.TEST_BUCKET}/original_key/test_file.parquet")
         copy_parquet_to_new_s3_key(self.TEST_BUCKET, 'original_key/test_file.parquet', 'new_key/test_file_new_name.parquet')
 
-        output_df = self.spark.reqd.parquet(f"s3://{self.TEST_BUCKET}/new_key/test_file_new_name.parquet")
+        output_df = self.spark.read.parquet(f"s3://{self.TEST_BUCKET}/new_key/test_file_new_name.parquet")
         self.assertTrue(not output_df.rdd.isEmpty())
         self.assertTrue(df.subtract(output_df).rdd.isEmpty())
